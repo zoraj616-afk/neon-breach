@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEON BREACH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="vignette"></div>
+  <div id="game-container">
+    <!-- Title Screen -->
+    <div id="screen-title" class="screen active">
+      <div class="title-content">
+        <div class="title-deco">
+          <div class="title-line left"></div>
+          <span class="title-tag">SYSTEM://BREACH</span>
+          <div class="title-line right"></div>
+        </div>
+        <h1 class="glitch" data-text="NEON BREACH">NEON BREACH</h1>
+        <p class="subtitle">突破防火墙 · 攻入核心</p>
+        <div class="title-version">v2.077 // 2087</div>
+        <button id="btn-start" class="neon-btn">
+          <span class="btn-icon">▶</span>
+          <span>开始入侵</span>
+        </button>
+        <div class="title-gallery-btns">
+          <button id="btn-story" class="neon-btn sm">故事背景</button>
+          <button id="btn-cards" class="neon-btn sm">卡牌图鉴</button>
+          <button id="btn-enemies" class="neon-btn sm">敌人图鉴</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Screen -->
+    <div id="screen-map" class="screen">
+      <div class="map-hud">
+        <span class="hud-label">SECTOR MAP</span>
+        <span id="map-hp" class="hud-value"></span>
+      </div>
+      <div id="map-container"></div>
+    </div>
+
+    <!-- Combat Screen -->
+    <div id="screen-combat" class="screen">
+      <div id="combat-area">
+        <div id="enemy-area"></div>
+        <div id="combat-log"></div>
+        <div id="player-area">
+          <div id="player-hud">
+            <div id="player-stats"></div>
+            <div id="deck-info">
+              <span class="deck-count" id="deck-count"></span>
+              <span class="deck-count" id="discard-count"></span>
+            </div>
+          </div>
+          <div id="energy-display"></div>
+          <div id="hand"></div>
+          <button id="btn-end-turn" class="neon-btn end-turn-btn">
+            <span>结束回合</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shop Screen -->
+    <div id="screen-shop" class="screen">
+      <h2 class="screen-title">数据商店</h2>
+      <p id="shop-gold" class="shop-gold"></p>
+      <div id="shop-cards"></div>
+      <button id="btn-leave-shop" class="neon-btn">离开</button>
+    </div>
+
+    <!-- Rest Screen -->
+    <div id="screen-rest" class="screen">
+      <h2 class="screen-title">安全节点</h2>
+      <p class="rest-desc">在此处恢复数据完整性</p>
+      <div class="rest-options">
+        <button id="btn-rest-heal" class="neon-btn">修复 (+20 HP)</button>
+        <button id="btn-rest-upgrade" class="neon-btn">强化 (升级随机卡牌)</button>
+        <button id="btn-rest-remove" class="neon-btn">删除 (移除基础卡)</button>
+      </div>
+    </div>
+
+    <!-- Victory/Defeat Screen -->
+    <div id="screen-result" class="screen">
+      <h2 id="result-title" class="glitch"></h2>
+      <p id="result-text"></p>
+      <button id="btn-restart" class="neon-btn">再来一次</button>
+    </div>
+
+    <!-- Canvas overlay for effects -->
+    <canvas id="fx-canvas"></canvas>
+  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/combat.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/story.js"></script>
+</body>
+</html>
