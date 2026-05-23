@@ -512,7 +512,7 @@ const Game = (() => {
     show('result');
   }
 
-  return { init, onNode, narrate };
+  return { init, onNode, narrate, newRun };
 })();
 
 document.addEventListener('DOMContentLoaded', Game.init);
