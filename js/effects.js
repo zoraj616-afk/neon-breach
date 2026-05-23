@@ -37,15 +37,15 @@ const FX = (() => {
     circuitTraces = [];
 
     // Floating particles — more dense
-    const count = Math.floor((W * H) / 8000);
+    const count = Math.floor((W * H) / 15000);
     for (let i = 0; i < count; i++) {
       bgParticles.push({
         x: Math.random() * W,
         y: Math.random() * H,
         vx: (Math.random() - 0.5) * 25,
         vy: (Math.random() - 0.5) * 25,
-        size: 0.5 + Math.random() * 3,
-        alpha: 0.08 + Math.random() * 0.35,
+        size: 0.5 + Math.random() * 2,
+        alpha: 0.03 + Math.random() * 0.12,
         color: ['#00fff5', '#ff00ff', '#faff00', '#00ff88', '#ff2244', '#3388ff'][Math.floor(Math.random() * 6)],
         pulse: Math.random() * Math.PI * 2,
         pulseSpeed: 0.8 + Math.random() * 4,
@@ -65,7 +65,7 @@ const FX = (() => {
         y: Math.random() * H * 2 - H,
         speed: 50 + Math.random() * 150,
         chars,
-        alpha: 0.015 + Math.random() * 0.06,
+        alpha: 0.008 + Math.random() * 0.03,
         color: Math.random() > 0.3 ? '#00fff5' : '#ff00ff',
         length: len,
         charSize: 9 + Math.floor(Math.random() * 5),
@@ -85,7 +85,7 @@ const FX = (() => {
         y: Math.random() * H,
         speed: 40 + Math.random() * 100,
         chars,
-        alpha: 0.01 + Math.random() * 0.04,
+        alpha: 0.005 + Math.random() * 0.02,
         color: Math.random() > 0.5 ? '#faff00' : '#00ff88',
         length: len,
         charSize: 8 + Math.floor(Math.random() * 3),
@@ -102,25 +102,25 @@ const FX = (() => {
         rotSpeed: (Math.random() - 0.5) * 0.4,
         vx: (Math.random() - 0.5) * 10,
         vy: (Math.random() - 0.5) * 10,
-        alpha: 0.015 + Math.random() * 0.05,
+        alpha: 0.008 + Math.random() * 0.03,
         color: ['#00fff5', '#ff00ff', '#faff00', '#00ff88'][Math.floor(Math.random() * 4)],
         pulse: Math.random() * Math.PI * 2,
         filled: Math.random() > 0.7,
       });
     }
 
-    // Energy orbs — more, varied
-    for (let i = 0; i < 8; i++) {
+    // Energy orbs — subtle ambient glow
+    for (let i = 0; i < 5; i++) {
       energyOrbs.push({
         x: Math.random() * W,
         y: Math.random() * H,
-        radius: 60 + Math.random() * 250,
-        alpha: 0.008 + Math.random() * 0.035,
+        radius: 30 + Math.random() * 80,
+        alpha: 0.004 + Math.random() * 0.01,
         color: ['#00fff5', '#ff00ff', '#faff00', '#00ff88', '#ff2244'][Math.floor(Math.random() * 5)],
         pulse: Math.random() * Math.PI * 2,
-        pulseSpeed: 0.2 + Math.random() * 0.6,
-        driftX: (Math.random() - 0.5) * 4,
-        driftY: (Math.random() - 0.5) * 4,
+        pulseSpeed: 0.15 + Math.random() * 0.3,
+        driftX: (Math.random() - 0.5) * 3,
+        driftY: (Math.random() - 0.5) * 3,
       });
     }
 
@@ -132,8 +132,8 @@ const FX = (() => {
         gridNodes.push({
           x: x + (Math.random() - 0.5) * 30,
           y: y + (Math.random() - 0.5) * 30,
-          size: 1.5 + Math.random() * 3,
-          alpha: 0.05 + Math.random() * 0.15,
+          size: 1 + Math.random() * 2,
+          alpha: 0.02 + Math.random() * 0.06,
           color: ['#00fff5', '#ff00ff', '#faff00'][Math.floor(Math.random() * 3)],
           pulse: Math.random() * Math.PI * 2,
           pulseSpeed: 0.5 + Math.random() * 2,
@@ -159,7 +159,7 @@ const FX = (() => {
       circuitTraces.push({
         segments,
         color: ['#00fff5', '#ff00ff', '#faff00'][Math.floor(Math.random() * 3)],
-        alpha: 0.02 + Math.random() * 0.04,
+        alpha: 0.01 + Math.random() * 0.02,
         progress: Math.random(),
         speed: 0.1 + Math.random() * 0.3,
         pulse: Math.random() * Math.PI * 2,
@@ -174,7 +174,7 @@ const FX = (() => {
     if (gridOffset > 60) gridOffset -= 60;
 
     ctx.save();
-    ctx.globalAlpha = 0.04;
+    ctx.globalAlpha = 0.02;
     ctx.strokeStyle = '#00fff5';
     ctx.lineWidth = 0.5;
 
@@ -183,7 +183,7 @@ const FX = (() => {
     for (let i = 0; i < 30; i++) {
       const t = (i + gridOffset / 60) / 30;
       const y = horizon + (H - horizon) * t * t;
-      ctx.globalAlpha = 0.03 * (1 - t * 0.5);
+      ctx.globalAlpha = 0.015 * (1 - t * 0.5);
       ctx.beginPath();
       ctx.moveTo(0, y);
       ctx.lineTo(W, y);
@@ -194,7 +194,7 @@ const FX = (() => {
     const vanishX = W * 0.5;
     for (let i = -15; i <= 15; i++) {
       const bottomX = vanishX + i * (W / 12);
-      ctx.globalAlpha = 0.025;
+      ctx.globalAlpha = 0.012;
       ctx.beginPath();
       ctx.moveTo(vanishX, horizon);
       ctx.lineTo(bottomX, H);
@@ -246,7 +246,7 @@ const FX = (() => {
       ctx.strokeStyle = h.color;
       ctx.lineWidth = 1;
       ctx.shadowColor = h.color;
-      ctx.shadowBlur = 12;
+      ctx.shadowBlur = 4;
 
       ctx.beginPath();
       for (let i = 0; i < 6; i++) {
@@ -321,7 +321,7 @@ const FX = (() => {
       ctx.globalAlpha = a;
       ctx.fillStyle = n.color;
       ctx.shadowColor = n.color;
-      ctx.shadowBlur = 6;
+      ctx.shadowBlur = 3;
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
       ctx.fill();
@@ -344,7 +344,7 @@ const FX = (() => {
       ctx.strokeStyle = c.color;
       ctx.lineWidth = 1;
       ctx.shadowColor = c.color;
-      ctx.shadowBlur = 4;
+      ctx.shadowBlur = 2;
 
       for (let i = 0; i <= currentSeg && i < totalSegs; i++) {
         const seg = c.segments[i];
@@ -402,7 +402,7 @@ const FX = (() => {
       ctx.globalAlpha = a;
       ctx.fillStyle = p.color;
       ctx.shadowColor = p.color;
-      ctx.shadowBlur = 6;
+      ctx.shadowBlur = 3;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
@@ -418,8 +418,8 @@ const FX = (() => {
         const a = bgParticles[i], b = bgParticles[j];
         const dx = a.x - b.x, dy = a.y - b.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          ctx.globalAlpha = 0.06 * (1 - dist / 120);
+        if (dist < 80) {
+          ctx.globalAlpha = 0.025 * (1 - dist / 80);
           ctx.strokeStyle = a.color;
           ctx.lineWidth = 0.5;
           ctx.beginPath();
@@ -463,10 +463,10 @@ const FX = (() => {
   function drawScanLine(dt) {
     scanY += dt * 80;
     if (scanY > H) scanY = 0;
-    ctx.globalAlpha = 0.06;
+    ctx.globalAlpha = 0.03;
     ctx.fillStyle = '#00fff5';
     ctx.fillRect(0, scanY, W, 2);
-    ctx.globalAlpha = 0.02;
+    ctx.globalAlpha = 0.01;
     ctx.fillRect(0, scanY - 20, W, 40);
     ctx.globalAlpha = 1;
   }
