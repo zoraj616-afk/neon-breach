@@ -1919,6 +1919,19 @@ body::after {
 .demo-btn-title:hover {
   box-shadow: 0 0 15px rgba(255,0,255,0.3);
 }
+.singularity-btn {
+  border-color: rgba(255,0,0,0.5) !important;
+  color: #ff4444 !important;
+  animation: singularity-btn-pulse 2s infinite;
+}
+.singularity-btn:hover {
+  box-shadow: 0 0 20px rgba(255,0,0,0.4);
+  border-color: #ff0000 !important;
+}
+@keyframes singularity-btn-pulse {
+  0%, 100% { box-shadow: 0 0 5px rgba(255,0,0,0.1); }
+  50% { box-shadow: 0 0 15px rgba(255,0,0,0.3); }
+}
 #demo-bar {
   position: fixed;
   top: 12px;

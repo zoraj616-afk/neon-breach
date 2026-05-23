@@ -7,17 +7,92 @@ const Demo = (() => {
 
   function init() {
     document.getElementById('btn-demo').onclick = startDemo;
+    document.getElementById('btn-singularity-demo').onclick = startSingularityDemo;
   }
 
   function startDemo() {
     active = true;
     speed = 1;
-    // Start a new run
     Game.newRun();
     showDemoControls();
     SFX.button();
-    // Start auto-play loop
     setTimeout(() => autoLoop(), 1000);
+  }
+
+  function startSingularityDemo() {
+    active = true;
+    speed = 1;
+
+    // Set up player with full deck for Singularity fight
+    window.playerHp = 60;
+    window.playerDeck = [
+      // Starter cards
+      'data_pulse', 'data_pulse', 'firewall_card', 'firewall_card', 'scan', 'overclock',
+      // Advanced cards
+      'overflow', 'chain_lightning', 'virus', 'data_theft', 'purify', 'reflect_coat',
+      'weakness_scan', 'overload_strike',
+      // Ultra-rare cards
+      'data_storm', 'quantum_strike', 'aegis_protocol', 'root_access',
+    ];
+
+    // Set up singularity state with all bosses defeated
+    Game.setSingularityState({
+      absorbedCards: [
+        { name:'核心反射', desc:'获得 6 护盾\n反弹 4', fx:{ shield:6, reflect:4 }, color:'#00fff5' },
+        { name:'系统入侵', desc:'攻击 6 + 移除护盾', fx:{ damage:6, purgePlayer:true }, color:'#3388ff' },
+        { name:'能量过载', desc:'攻击 12\n自伤 3', fx:{ damage:12, selfDamage:3 }, color:'#faff00' },
+        { name:'暴君之怒', desc:'攻击 15', fx:{ damage:15 }, color:'#ff4444' },
+      ],
+      defeatedBosses: ['core_guardian', 'sector_overseer', 'singularity_herald', 'cascade_emperor'],
+      respawned: false,
+      respawnNode: null,
+    });
+
+    // Show combat directly against Singularity
+    Game.show('combat');
+    const extraCards = [
+      { name:'核心反射', desc:'获得 6 护盾\n反弹 4', fx:{ shield:6, reflect:4 }, color:'#00fff5' },
+      { name:'系统入侵', desc:'攻击 6 + 移除护盾', fx:{ damage:6, purgePlayer:true }, color:'#3388ff' },
+      { name:'能量过载', desc:'攻击 12\n自伤 3', fx:{ damage:12, selfDamage:3 }, color:'#faff00' },
+      { name:'暴君之怒', desc:'攻击 15', fx:{ damage:15 }, color:'#ff4444' },
+    ];
+
+    Combat.start(['ai_singularity'], (won) => {
+      setTimeout(() => {
+        if (won) {
+          Game.narrate('「不... 这不可能... 我的...意识...正在...消散...」', '#ff0000');
+          setTimeout(() => Game.showResult(true), 2500);
+        } else {
+          Game.showResult(false);
+        }
+      }, 1200);
+    }, { hpBonus: 0, shieldBonus: 0 }, extraCards);
+
+    showDemoControls('SINGULARITY');
+    SFX.bossPhase();
+
+    // Narration
+    setTimeout(() => {
+      Game.narrate('「你终于来了... 我等你很久了」', '#ff0000');
+    }, 500);
+    setTimeout(() => {
+      Game.narrate('「你击败了我的守卫... 但它们的力量已成为我的一部分」', '#ff0000');
+    }, 3000);
+
+    // Auto-play combat
+    setTimeout(() => autoCombatLoop(), 4000);
+  }
+
+  async function autoCombatLoop() {
+    while (active) {
+      const state = Combat.getState();
+      if (!state) { await delay(500); continue; }
+      if (state.phase === 'ended') { await delay(2000); return; }
+      if (state.phase !== 'player') { await delay(300); continue; }
+
+      await autoCombat();
+      await delay(500);
+    }
   }
 
   function stopDemo() {
@@ -27,12 +102,12 @@ const Demo = (() => {
     SFX.button();
   }
 
-  function showDemoControls() {
+  function showDemoControls(label) {
     removeDemoControls();
     const bar = document.createElement('div');
     bar.id = 'demo-bar';
     bar.innerHTML = `
-      <div class="demo-label">DEMO MODE</div>
+      <div class="demo-label">${label || 'DEMO MODE'}</div>
       <button class="demo-btn" id="demo-speed">1×</button>
       <button class="demo-btn demo-stop" id="demo-stop">STOP</button>
     `;

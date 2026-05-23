@@ -512,7 +512,11 @@ const Game = (() => {
     show('result');
   }
 
-  return { init, onNode, narrate, newRun };
+  function setSingularityState(state) {
+    singularity = { ...singularity, ...state };
+  }
+
+  return { init, onNode, narrate, newRun, show, showResult, setSingularityState };
 })();
 
 document.addEventListener('DOMContentLoaded', Game.init);
